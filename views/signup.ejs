@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/metadata') %>
+    <title>Dashboard</title>
+  </head>
+  <body class="flex flex-col min-h-screen bg-slate-900">
+    <%- include('partials/navbar') %>
+
+    <main class="mx-auto mt-20 flex-grow">
+      <div
+        class="max-w-md text-slate-100 bg-slate-800 p-5 pb-6 border-2 border-slate-600 rounded-md">
+        <form class="flex flex-col gap-4" action="/signup" method="post">
+          <h1 class="text-2xl font-bold text-center">Signup</h1>
+          <% if (locals.errors) { %>
+          <div
+            class="mx-auto py-3 px-12 font-bold border border-red-300 bg-red-950 text-red-200 rounded-md">
+            <ul class="text-center">
+              <% for (const err of locals.errors) {%>
+              <li><%= err.msg %></li>
+              <%} %>
+            </ul>
+          </div>
+          <% } %>
+          <div class="flex flex-col items-start">
+            <label class="font-semibold" for="username">Username</label>
+            <input
+              class="text-lg p-1 bg-slate-600 mt-2 rounded w-full border-2 border-transparent"
+              name="username"
+              id="username"
+              type="text"
+              minlength="4"
+              maxlength="10"
+              required />
+          </div>
+          <div class="flex flex-col items-start">
+            <label class="font-semibold" for="password">Password</label>
+            <input
+              class="text-lg p-1 bg-slate-600 mt-2 rounded w-full border-2 border-transparent"
+              name="password"
+              id="password"
+              type="password"
+              minlength="2"
+              maxlength="10"
+              required />
+          </div>
+          <div class="flex flex-col items-start">
+            <label class="font-semibold" for="confirmPw"
+              >Confirm Password</label
+            >
+            <input
+              class="text-lg p-1 bg-slate-600 mt-2 rounded w-full border-2 border-transparent"
+              name="confirmPw"
+              id="confirmPw"
+              type="password" />
+            <p id="pwWarning" class="pt-1 text-xs font-bold text-transparent">
+              Password did not match
+            </p>
+          </div>
+          <button
+            class="py-2 border font-semibold border-slate-400 rounded-md hover:bg-slate-300 transition-all hover:text-black"
+            type="submit">
+            Sign up
+          </button>
+          <p class="text-xs mt-2 font-semibold">
+            Warning: if you lose your password, you ain't getting your account
+            back,
+            <span class="font-bold italic"> ever. </span>
+          </p>
+          <p class="italic text-sm text-center">
+            Already have an account?
+            <a
+              class="not-italic font-semibold underline hover:text-sky-300"
+              href="/login">
+              Log in
+            </a>
+          </p>
+        </form>
+      </div>
+    </main>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<dialog
+  id="renameModal"
+  class="min-w-80 h-52 bg-slate-800 border border-slate-600 rounded-md">
+  <form
+    id="renameForm"
+    method="post"
+    action=""
+    class="h-full text-slate-100 z-10 flex flex-col justify-evenly items-center">
+    <p class="text-xl font-bold">Rename item</p>
+    <input
+      class="text-md p-1 bg-slate-600 mt-2 rounded w-5/6"
+      name="newName"
+      minlength="4"
+      placeholder="New item name"
+      required
+      type="text" />
+    <div class="flex gap-2">
+      <button
+        data-target="#renameModal"
+        type="reset"
+        class="modalCloseBtn py-1 px-4 border border-slate-400 rounded-md text-sm hover:bg-slate-300 hover:text-black">
+        Cancel
+      </button>
+      <button
+        id="confirmBtn"
+        class="py-1 px-4 text-slate-900 bg-slate-300 border border-red-100 rounded-md text-sm hover:bg-slate-100 hover:text-black">
+        Confirm
+      </button>
+    </div>
+  </form>
+</dialog>

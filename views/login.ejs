@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/metadata') %>
+    <title>Dashboard</title>
+  </head>
+  <body class="flex flex-col min-h-screen bg-slate-900">
+    <%- include('partials/navbar') %>
+
+    <main class="mt-20 flex-grow">
+      <div
+        class="max-w-md mx-auto text-slate-100 bg-slate-800 p-5 pb-6 border-2 border-slate-600 rounded-md">
+        <form class="flex flex-col gap-4" action="/login" method="post">
+          <h1 class="text-2xl font-bold text-center">Log In</h1>
+
+          <!-- GENERAL MESSAGE -->
+          <% if (locals.message) { %>
+          <div
+            class="mx-auto py-3 px-12 font-bold border border-green-300 bg-green-300 text-green-950 rounded-md">
+            <p><%= locals.message %></p>
+          </div>
+          <%} %>
+
+          <!-- Errors message  -->
+          <% if (locals.errors) { %>
+          <div
+            class="mx-auto py-3 px-12 font-bold border border-red-300 bg-red-950 text-red-200 rounded-md">
+            <ul class="text-center text-sm">
+              <% for (const err of locals.errors) {%>
+              <li><%= err.msg || err.message %></li>
+              <%} %>
+            </ul>
+          </div>
+          <% } %>
+          <div class="flex flex-col items-start">
+            <label class="font-semibold" for="username">Username</label>
+            <input
+              class="text-lg p-1 bg-slate-600 mt-2 rounded w-full"
+              name="username"
+              id="username"
+              minlength="4"
+              maxlength="10"
+              required
+              type="text" />
+          </div>
+          <div class="flex flex-col items-start">
+            <label class="font-semibold" for="password">Password</label>
+            <input
+              class="text-lg p-1 bg-slate-600 mt-2 rounded w-full"
+              name="password"
+              id="password"
+              type="password"
+              required
+              minlength="2"
+              maxlength="10" />
+          </div>
+          <button
+            class="py-2 border font-semibold border-slate-400 rounded-md hover:bg-slate-300 transition-all hover:text-black"
+            type="submit">
+            Log in
+          </button>
+          <p class="italic text-sm text-center">
+            Don't have an account?
+            <a
+              class="not-italic font-semibold underline hover:text-sky-300"
+              href="/signup">
+              Create new
+            </a>
+            one
+          </p>
+        </form>
+      </div>
+    </main>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

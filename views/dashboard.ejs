@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/metadata') %>
+    <title>Dashboard</title>
+  </head>
+  <body class="flex flex-col min-h-screen bg-slate-900">
+    <%- include('partials/navbar')%> <%- include('partials/renameModal') %>
+
+    <main
+      class="flex flex-row min-h-max flex-grow gap-2 px-5 mx-auto w-full max-w-6xl text-slate-100 relative">
+      <!-- Sidebar -->
+      <div
+        id="sidebar"
+        class="w-8/12 h-full hidden bg-slate-900 absolute z-10 ps-5 md:w-4/12 lg:block lg:static lg:w-3/12">
+        <div class="flex pe-2 justify-between items-center">
+          <span class="text-xl font-semibold"> Dashboard </span>
+          <button
+            id="closeSbBtn"
+            class="p-1 rounded-md lg:hidden hover:bg-slate-600">
+            <img src="/images/close.svg" width="30" alt="close button" />
+          </button>
+        </div>
+        <ul class="px-2 mt-5 flex flex-col gap-2">
+          <li class="p-1 hover:bg-slate-600 rounded-md">
+            <a href="/dashboard">Home</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main view -->
+      <div
+        class="bg-slate-800 w-full rounded-md p-2 flex flex-col gap-2 relative mt-12 lg:mt-0">
+        <div class="lg:hidden">
+          <button
+            id="sidebarBtn"
+            class="py-2 px-5 bg-slate-800 rounded-md absolute left-0 -top-12 hover:bg-slate-700">
+            <img src="/images/menu.svg" alt="arrow icon" width="20" />
+          </button>
+        </div>
+
+        <div>
+          <!-- Btn controls -->
+          <div class="flex justify-end items-center gap-2">
+            <button
+              data-target="#newFolderModal"
+              class="modalBtn py-1 px-1 rounded-md text-sm hover:bg-slate-600 hover:text-black">
+              <img src="/images/new_folder.svg" alt="" width="25" />
+            </button>
+            <button
+              data-target="#newFileModal"
+              class="modalBtn py-1 px-1 rounded-md text-sm hover:bg-slate-600 hover:text-black">
+              <img src="/images/new_file.svg" alt="" width="25" />
+            </button>
+
+            <!-- New folder modal -->
+            <dialog
+              id="newFolderModal"
+              class="min-w-80 h-52 bg-slate-800 border border-slate-600 rounded-md">
+              <form
+                method="post"
+                action="/new-folder/<%= locals.currentFolderId %>"
+                class="h-full text-slate-100 z-10 flex flex-col justify-evenly items-center">
+                <p class="text-xl font-bold">New Folder</p>
+                <input
+                  class="text-md p-1 bg-slate-600 mt-2 rounded w-5/6"
+                  name="folderName"
+                  minlength="4"
+                  placeholder="Folder name"
+                  required
+                  type="text" />
+                <div class="flex gap-2">
+                  <button
+                    data-target="#newFolderModal"
+                    type="reset"
+                    class="modalCloseBtn py-1 px-4 border border-slate-400 rounded-md text-sm hover:bg-slate-300 hover:text-black">
+                    Cancel
+                  </button>
+                  <button
+                    id="confirmBtn"
+                    class="py-1 px-4 text-slate-900 bg-slate-300 border border-red-100 rounded-md text-sm hover:bg-slate-100 hover:text-black">
+                    Add folder
+                  </button>
+                </div>
+              </form>
+            </dialog>
+
+            <!-- New file modal -->
+            <dialog
+              id="newFileModal"
+              class="min-w-80 h-52 bg-slate-800 border border-slate-600 rounded-md">
+              <form
+                id="newFileForm"
+                method="post"
+                enctype="multipart/form-data"
+                action="/new-file/<%= locals.currentFolderId %>"
+                class="h-full text-slate-100 z-10 flex flex-col justify-evenly items-center">
+                <p class="text-xl font-bold">Upload file</p>
+                <div class="flex flex-col justify-center items-center">
+                  <input
+                    class="text-md p-1 bg-slate-600 mt-2 rounded w-5/6 border border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-slate-300 hover:file:bg-slate-200"
+                    id="file"
+                    name="file"
+                    required
+                    type="file" />
+                  <p class="text-xs">Max size: 5MiB</p>
+                  <p
+                    id="fileWarning"
+                    class="text-xs text-red-500 font-bold hidden">
+                    Selected file is bigger than 5 MiB
+                  </p>
+                </div>
+                <div class="flex gap-2">
+                  <button
+                    data-target="#newFileModal"
+                    type="reset"
+                    class="modalCloseBtn py-1 px-4 border border-slate-400 rounded-md text-sm hover:bg-slate-300 hover:text-black">
+                    Cancel
+                  </button>
+                  <button
+                    class="py-1 px-4 text-slate-900 bg-slate-300 border border-red-100 rounded-md text-sm hover:bg-slate-100 hover:text-black">
+                    Add file
+                  </button>
+                </div>
+              </form>
+            </dialog>
+          </div>
+
+          <table class="table-auto text-sm rounded-md w-full">
+            <thead class="rounded-s-md text-left border-b border-slate-600">
+              <tr>
+                <th class="p-2">Name</th>
+                <th class="hidden sm:table-cell">Size</th>
+                <th class="hidden md:table-cell">Created</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <!-- File details -->
+            <tbody class="">
+              <!-- cd .. , not displayed when no parent -->
+              <%if (typeof locals.parentId !== 'undefined') { %>
+              <tr class="hover:bg-slate-700">
+                <td colspan="4" class="font-bold">
+                  <a
+                    class="ps-2 flex gap-2"
+                    href="/dashboard/<%= locals.parentId %>">
+                    <img src="/images/folder.svg" alt="backup" width="20" />
+                    Go up
+                  </a>
+                </td>
+              </tr>
+              <% } %>
+
+              <!-- File list -->
+              <% for(const file of locals.files ) {%>
+              <tr class="border-t border-slate-500 hover:bg-slate-700">
+                <td>
+                  <a
+                    class="ps-2 flex gap-2 <%=file.type === 'file' ? 'pointer-events-none' : '' %>"
+                    href="/dashboard/<%=file.type === 'folder' ? file.id : ''%>">
+                    <img src="/images/<%=file.type%>.svg" alt="" width="20" />
+                    <%= file.name %>
+                  </a>
+                </td>
+                <td class="<%= file.size ? 'size' : '' %> hidden sm:table-cell">
+                  <%= file.size || ''%>
+                </td>
+                <td class="date hidden md:table-cell"><%= file.createdAt %></td>
+                <td class="relative">
+                  <button
+                    class="ddBtn rounded-md min-w-6 hover:bg-slate-600 p-1"
+                    data-target="#fileAction<%=file.id%>">
+                    <img src="/images/dots.svg" width="20" alt="" />
+                  </button>
+                  <div
+                    id="fileAction<%=file.id%>"
+                    class="absolute z-10 border border-slate-600 hidden bg-slate-700 py-4 ps-4 w-40 right-0 top-12 rounded-md">
+                    <ul class="flex flex-col gap-1">
+                      <li class="text-slate-200 hover:text-sky-300">
+                        <a
+                          href="/download/<%= file.id%>"
+                          class="<%= file.type === 'folder' ? 'pointer-events-none text-slate-400' : '' %>"
+                          >Download</a
+                        >
+                      </li>
+                      <li class="text-slate-200 hover:text-sky-300">
+                        <p
+                          class="renameBtn modalBtn cursor-pointer"
+                          data-renameForm="#renameForm"
+                          data-renameType="<%=file.type%>"
+                          data-renameId="<%=file.id%>"
+                          data-target="#renameModal">
+                          Rename
+                        </p>
+                      </li>
+                      <li class="text-red-200 hover:text-red-500">
+                        <% if(file.type === 'folder') { %>
+                        <a
+                          href="/delete-folder/<%=file.id%>/?parentId=<%=locals.parentId%>"
+                          >Delete Folder</a
+                        >
+                        <% } else { %>
+                        <a
+                          href="/delete-file/<%=file.id%>/?parentId=<%=locals.currentFolderId%>"
+                          >Delete File</a
+                        >
+                        <% } %>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

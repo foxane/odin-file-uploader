@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/metadata') %>
+    <title>Dashboard</title>
+  </head>
+  <body class="flex flex-col min-h-screen bg-slate-900">
+    <%- include('partials/navbar') %>
+
+    <main class="mx-auto max-w-6xl flex flex-col justify-evenly flex-grow">
+      <div class="flex flex-col gap-5">
+        <img src="/images/logo.svg" alt="" width="200" class="mx-auto" />
+        <div class="text-5xl font-extrabold text-center">
+          <a href="/">
+            <span
+              id="brand-gradient"
+              class="font-medium font-mono bg-2 bg-left bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-pink-500">
+              du_drive
+            </span>
+          </a>
+        </div>
+        <h1 class="text-center text-4xl font-bold text-slate-300">
+          The new standard of cloud storage
+        </h1>
+      </div>
+
+      <section
+        class="text-slate-300 flex flex-row justify-center items-center flex-wrap mt-20 gap-5">
+        <div
+          class="p-5 max-w-sm bg-slate-900 shadow-lg shadow-slate-950 rounded-md flex flex-col items-start gap-3">
+          <p class="text-xl font-bold text-white">
+            State of the art infrastructure
+          </p>
+          <p class="text-md">
+            We are the best at what we do. Proven from this random post on
+            reddit
+          </p>
+          <a
+            href="http://"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="py-1 px-4 border bg-slate-300 rounded-md text-black text-sm hover:bg-slate-200"
+            >Read more</a
+          >
+        </div>
+
+        <div
+          class="p-5 max-w-sm bg-slate-900 shadow-lg shadow-slate-950 rounded-md flex flex-col items-start gap-3">
+          <p class="text-xl font-bold text-white">24/7 Customer service</p>
+          <p class="text-md">
+            Find yourself in a pickle while using our service? we wont tell you
+            to delete cookies
+          </p>
+          <a
+            href="http://"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="py-1 px-4 border bg-slate-300 rounded-md text-black text-sm hover:bg-slate-200"
+            >Customer service</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

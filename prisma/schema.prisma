@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
+
+model User {
+  id           String @id @default(uuid())
+  username     String @unique
+  passwordHash String
+  role         Role   @default(USER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Implicit top-level folder
+  folders Folder[]
+  files   File[]
+}
+
+model File {
+  id   String @id @default(uuid())
+  name String
+  size Int
+  url  String
+  type String @default("file")
+
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Folder that contain this file
+  parent   Folder? @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  parentId String?
+}
+
+model Folder {
+  id   String @id @default(uuid())
+  name String
+  type String @default("folder")
+
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Null parent (like the one who read this) is treated as top-level, directly inside user model
+  parent         Folder?  @relation("subdir", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId       String?
+  subDirectories Folder[] @relation("subdir")
+  files          File[]
+}
+
+enum Role {
+  ADMIN
+  USER
+}

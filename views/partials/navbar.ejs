@@ -1,0 +1,88 @@
+<header class="bg-slate-900 top-0 h-16">
+  <nav
+    class="flex flex-row justify-between py-2 px-5 mx-auto text-white max-w-7xl">
+    <a href="/" class="flex flex-row items-center gap-1">
+      <img src="/images/logo.svg" alt="" width="40" class="" />
+      <span class="text-xl font-mono font-medium">du_drive</span></a
+    >
+
+    <div class="flex items-center gap-2 relative" id="navbar-default">
+      <!-- User not logged in -->
+      <% if(!locals.user) { %>
+      <div class="">
+        <a
+          href="/login"
+          class="py-1 px-4 border border-slate-400 rounded-md text-sm hover:bg-slate-300 hover:text-black"
+          >Login</a
+        >
+        <a
+          href="/signup"
+          class="py-1 px-4 border bg-slate-300 rounded-md text-black text-sm hover:bg-slate-200"
+          >Signup</a
+        >
+      </div>
+      <% } else { %>
+      <!-- User logged in -->
+      <div class="flex gap-2">
+        <p><%= locals.user.username %></p>
+        <button data-target="#navMenu" type="button" class="ddBtn">
+          <img
+            src="/images/user.svg"
+            width="30"
+            class="border-2 border-white rounded-full" />
+        </button>
+      </div>
+
+      <div
+        id="navMenu"
+        class="absolute z-10 border border-slate-600 hidden bg-slate-700 py-4 ps-4 w-40 right-0 top-12 rounded-md">
+        <ul class="flex flex-col gap-3 text-slate-300">
+          <li>
+            <a href="/dashboard" class="block hover:text-lime-100">Dashboard</a>
+          </li>
+          <li>
+            <a href="/profile" class="block hover:text-lime-100"> Profile</a>
+          </li>
+          <div class="border w-11/12 border-slate-400"></div>
+          <li>
+            <a
+              href="#"
+              data-target="#logoutModal"
+              class="modalBtn block text-red-300 hover:text-red-500">
+              Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Logout modal -->
+      <dialog
+        id="logoutModal"
+        class="min-w-80 h-40 bg-slate-800 border border-slate-600 rounded-md">
+        <form
+          method="dialog"
+          class="h-full text-slate-100 z-10 flex flex-col justify-evenly items-center">
+          <p class="text-xl font-bold">Logout confirmation</p>
+          <p>Do you really want to logout?</p>
+          <div class="flex gap-2">
+            <button
+              data-target="logoutModal"
+              id="cancel"
+              class="modalCloseBtn py-1 px-4 border border-slate-400 rounded-md text-sm hover:bg-slate-300 hover:text-black">
+              Cancel
+            </button>
+            <button>
+              <a
+                href="/logout"
+                class="py-1 px-4 text-slate-900 bg-red-400 border border-red-100 rounded-md text-sm hover:bg-red-500 hover:text-black"
+                >Confirm</a
+              >
+            </button>
+          </div>
+        </form>
+      </dialog>
+
+      <% } %>
+    </div>
+  </nav>
+</header>
