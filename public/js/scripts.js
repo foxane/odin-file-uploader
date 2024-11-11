@@ -96,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Format sizes
     const sizes = document.querySelectorAll('.size');
     sizes.forEach(el => {
-      console.log(el.innerText);
       el.innerText = (Number(el.innerText) / 1000000).toFixed(2) + 'MB';
     });
 
@@ -137,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     modalCloseBtns.forEach(el => {
       el.addEventListener('click', () => {
-        console.log(el.dataset.target);
         document.querySelector(el.dataset.target).close();
       });
     });

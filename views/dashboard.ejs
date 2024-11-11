@@ -179,8 +179,10 @@
                     <ul class="flex flex-col gap-1">
                       <li class="text-slate-200 hover:text-sky-300">
                         <a
-                          href="/download/<%= file.id%>"
+                          href="<%=file.url%>"
                           class="<%= file.type === 'folder' ? 'pointer-events-none text-slate-400' : '' %>"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           >Download</a
                         >
                       </li>

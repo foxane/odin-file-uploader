@@ -8,7 +8,6 @@ export const login = {
     res.render('login');
   },
   postForm: (req, res, next) => {
-    console.log('reached cibtrikker');
     const validRes = validationResult(req);
     if (!validRes.isEmpty()) {
       res.locals.errors = validRes.errors;

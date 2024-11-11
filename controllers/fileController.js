@@ -50,11 +50,11 @@ export const file = {
       }
 
       const parentId = req.params.parentId || null;
-      const { originalname, size, path } = req.file;
+      const { originalname, size, publicUrl } = req.file;
       await db.uploadFile({
         userId: req.user.id,
         name: originalname,
-        url: path,
+        url: publicUrl,
         size,
         parentId,
       });
